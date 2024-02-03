@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProEventos.API.Data;
 using ProEventos.API.Models;
 
@@ -27,6 +28,13 @@ public class EventoController : ControllerBase
     return _context.Eventos.FirstOrDefault(
       evento => evento.EventoId == id
     );
+  }
+
+  [HttpGet("EventosInCity")]
+  public IQueryable<Evento> GetEventoInCity()
+  {
+    return _context.Eventos
+      .FromSqlRaw($"select * from Eventos e where e.Local like '%city';");
   }
 
   [HttpPost]
