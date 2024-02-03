@@ -1,5 +1,6 @@
 # ProEventos 🗓️🅰️🦄
 *Angular + .Net and EF Core 6*
+
 **ProEventos é uma aplicação de ponta a ponta, feita com Angular, Dotnet (.Net) 6 e SQL Server/SQLite. Feito com o curso Seja FullStack na Udemy.** 
 
 ### Especificacoes WebApi
