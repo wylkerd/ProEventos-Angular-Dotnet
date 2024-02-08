@@ -423,11 +423,47 @@ $RECYCLE.BIN/
 .idea/
 *.sln.iml
 
-##
-## Visual Studio Code
-##
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/front/ProEventos-App/dist
+/front/ProEventos-App/tmp
+/front/ProEventos-App/out-tsc
+/front/ProEventos-App/bazel-out
+
+# Node
+/front/ProEventos-App/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+/front/ProEventos-App.settings/
+*.sublime-workspace
+
+# Visual Studio Code
 .vscode/*
+/front/ProEventos-App/.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/front/ProEventos-App/.angular/cache
+.sass-cache/
+/front/ProEventos-App/connect.lock
+/front/ProEventos-App/coverage
+/front/ProEventos-App/libpeerconnection.log
+testem.log
+/front/ProEventos-App/typings
+
+# System files
+.DS_Store
+Thumbs.db
