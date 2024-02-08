@@ -7,6 +7,7 @@
 * sdk 6.0.201
 * .Net: 6
 * dotnet new globaljson --sdk-version 6.0.201
+* dotnet tool install --global dotnet-ef --version 6.0.0
 
 ### Comandos em ordem para criar WebApi
 * Models, Controllers, DbContext, Configuracoes DB na Startup, Migration e DB update.
