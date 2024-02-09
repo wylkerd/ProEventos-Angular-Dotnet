@@ -16,6 +16,21 @@
 * dotnet ef migrations add Initial -o Data/Migrations
 * dotnet ef database update
 
+### Comandos para projeto em camadass
+* dotnet new sln -n ProEventos
+* dotnet new classlib -n ProEventos.Persistence
+* dotnet new classlib -n ProEventos.Domain
+* dotnet new classlib -n ProEventos.Application
+
+* dotnet sln ProEventos.sln add ProEventos.Application
+* dotnet sln ProEventos.sln add ProEventos.API
+* dotnet sln ProEventos.sln add ProEventos.Domain
+* dotnet sln ProEventos.sln add ProEventos.Persistence
+
+* dotnet add ProEventos.API/ProEventos.API.csproj reference ProEventos.Application
+* dotnet add ProEventos.Application/ProEventos.Application.csproj reference ProEventos.Domain
+* dotnet add ProEventos.Application/ProEventos.Application.csproj reference ProEventos.Persistence/
+* dotnet add ProEventos.Persistence/ProEventos.Persistence.csproj reference ProEventos.Domain/
 --------------------------------------------
 ### Bibliotecas Nuget, interessantes para serem utilizadas em aplicações .Net
 * Entity Framework Core : ORM para realização de consultas (crud) e manipulações do Banco de dados também (migrations, updates e etc, por meio do CLI) no banco de dados, consultas com LINQ ou Diretas por meio do fromSQL(), por exemplo.
