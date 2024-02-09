@@ -447,6 +447,8 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
+/vscode
+/vscode/*
 .vscode/*
 /front/ProEventos-App/.vscode/*
 !.vscode/settings.json
@@ -467,3 +469,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+.db-shm
+.db-wal
