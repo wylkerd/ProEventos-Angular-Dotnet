@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using ProEventos.API.Data;
+using ProEventos.API.Injectors;
+using ProEventos.Repository;
 
 namespace ProEventos.API
 {
@@ -22,8 +23,25 @@ namespace ProEventos.API
             context => context.UseSqlite(Configuration.GetConnectionString("sqliteConnectionString"))
           );
 
-          services.AddControllers();
-          services.AddCors();
+          services.AddControllers()
+            .AddJsonOptions(options => 
+              {
+                  options.JsonSerializerOptions.IgnoreNullValues = true; // api ignora os valores nulos
+              })
+            .AddNewtonsoftJson(options => 
+              {
+                  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; // ignora referencias circulares / ciclicas entre Entidades
+              }
+            );
+
+          // configuraçao dos Scopes <Interface, Class>
+          RepositoryInjector.RegisterRepositories(services);
+
+          services.AddCors(c => 
+          {
+              c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+          });
+          
           services.AddSwaggerGen(c =>
           {
               c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEventos.API", Version = "v1" });

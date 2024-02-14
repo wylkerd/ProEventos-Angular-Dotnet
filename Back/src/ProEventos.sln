@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProEventos.Domain", "ProEve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProEventos.API", "ProEventos.API\ProEventos.API.csproj", "{1C21462F-2D9D-497B-A3BE-DB96C5F537E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProEventos.Persistence", "ProEventos.Persistence\ProEventos.Persistence.csproj", "{04B13F2C-23BB-44F7-BCB6-CA50387EA942}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProEventos.Repository", "ProEventos.Repository\ProEventos.Repository.csproj", "{04B13F2C-23BB-44F7-BCB6-CA50387EA942}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,7 +13,8 @@ public class Palestrante
 
   public string? Email { get; set; }
 
-  public IEnumerable<RedeSocial>? RedesSociais { get; set; } // pode possuir VARIAS redes sociais (um pra muitos)
+  // pode possuir VARIAS redes sociais (um pra muitos)
+  public IEnumerable<RedeSocial>? RedesSociais { get; set; } 
 
   // Associacao da tabela auxiliar (muitos pra muitos)
   public IEnumerable<PalestranteEvento>? PalestrantesEventos { get; set; }
