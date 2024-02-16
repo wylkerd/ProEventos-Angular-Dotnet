@@ -9,7 +9,7 @@ import { NavComponent } from "./shared/nav/nav.component";
 import { CommonModule } from "@angular/common";
 import { ContatosComponent } from "./components/contatos/contatos.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { PerfilComponent } from "./components/perfil/perfil.component";
+import { PerfilComponent } from "./components/user/perfil/perfil.component";
 
 @Component({
     selector: 'app-root',

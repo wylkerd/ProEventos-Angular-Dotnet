@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { faUser, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-titulo',
@@ -17,7 +17,7 @@ import { faUser, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 })
 export class TituloComponent implements OnInit {
   @Input() titulo: string = "";
-  @Input() iconClass = 'fa fa-user';
+  @Input() iconClass = faUser;
   @Input() subtitulo = 'Desde 2024';
   @Input() botaoListar = false;
 

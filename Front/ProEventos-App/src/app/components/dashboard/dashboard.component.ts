@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faChartBar } from "@fortawesome/free-solid-svg-icons";
 import { TituloComponent } from "../../shared/titulo/titulo.component";
 
 @Component({
@@ -9,6 +10,7 @@ import { TituloComponent } from "../../shared/titulo/titulo.component";
   imports: [TituloComponent]
 })
 export class DashboardComponent implements OnInit {
+  faChartBar = faChartBar;
 
   constructor() { }
 
