@@ -10,11 +10,11 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash, faEdit, faTrash, faCalendarAlt, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { ToastrService } from "ngx-toastr";
-import { Evento } from "../../../models/Evento";
-import { EventoService } from "../../../services/evento.service";
+import { Evento } from "@app/models/Evento";
+import { EventoService } from "@app/services/evento.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { TituloComponent } from "../../../shared/titulo/titulo.component";
-import { DateTimeFormatPipe } from "../../../helpers/DateTimeFormat.pipe";
+import { TituloComponent } from "@app/shared/titulo/titulo.component";
+import { DateTimeFormatPipe } from "@app/helpers/DateTimeFormat.pipe";
 import { Router, RouterLink } from "@angular/router";
 
 @Component({
