@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using ProEventos.Domain.Models;
 using ProEventos.Application.Interfaces;
+using ProEventos.Application.Dtos;
 
 namespace ProEventos.API.Controllers;
 
@@ -15,13 +15,14 @@ public class EventosController : ControllerBase
       _eventoService = eventoService;
   }
 
+  // UTILIZAR DAPPER DEPOIS E UTILIZAR DTO DE RETORNO DIRETAMENTE, SEM AUTOMAPPER
   [HttpGet]
   public async Task<IActionResult> GetAllEventos() // IActionResult permite devolver o codigo HTTP
   {
     try
     {
       var eventos = await _eventoService.GetAllEventosAsync(true); // true pra poder retornar os palestrantes
-      if (eventos == null) return NotFound(new { message = $"Nenhum evento por tema encontrado."});
+      if (eventos == null) return NoContent();
 
       return Ok(eventos);
     }
@@ -37,7 +38,7 @@ public class EventosController : ControllerBase
     try
     {
       var evento = await _eventoService.GetEventosByIdAsync(id, true);
-      if(evento == null) return NotFound(new { message = $"Nenhum Evento por Id encontrado."});
+      if(evento == null) return NoContent();
 
       return Ok(evento);
     }
@@ -54,7 +55,7 @@ public class EventosController : ControllerBase
     {
       var eventos = await _eventoService.GetAllEventosByTemaAsync(tema, true);
 
-      if(eventos == null) return NotFound(new { message = $"Nenhum evento por tema encontrado."});
+      if(eventos == null) return NoContent();
 
       return Ok(eventos);
     }
@@ -65,13 +66,13 @@ public class EventosController : ControllerBase
   }
 
   [HttpPost]
-  public async Task<IActionResult> Post(Evento model)
+  public async Task<IActionResult> Post(EventoDto model)
   {
     try
     {
       var evento = await _eventoService.AddEventos(model);
 
-      if(evento == null) return BadRequest(new { message = $"Erro ao tentar adicionar evento."});
+      if(evento == null) return NoContent();
 
       return Created($"/api/eventos/{model.Id}", evento);
     }
@@ -82,12 +83,12 @@ public class EventosController : ControllerBase
   }
 
   [HttpPut("{id}")]
-  public async Task<IActionResult> Put(int id, Evento model)
+  public async Task<IActionResult> Put(int id, EventoDto model)
   {
     try
     {
       var evento = await _eventoService.UpdateEvento(id, model);
-      if(evento == null) return BadRequest(new { message = $"Erro ao tentar atualizar evento."});
+      if(evento == null) return NoContent();
 
       return Ok(evento);
     }
@@ -102,11 +103,12 @@ public class EventosController : ControllerBase
   {
     try
     {
-      var deleted = await _eventoService.DeleteEvento(id);
+      var evento = await _eventoService.GetEventosByIdAsync(id, true);
+      if(evento == null) return NoContent();
 
-      return deleted ? 
+      return await _eventoService.DeleteEvento(id) ?
         Ok(new { message = $"Evento Deletado com sucesso."}) 
-        : BadRequest(new { message = $"Evento não deletado."});
+        : throw new Exception("Ocorreu um problema nao especifico ao tentar deletar o Evento.");
     
     }
     catch(Exception ex)

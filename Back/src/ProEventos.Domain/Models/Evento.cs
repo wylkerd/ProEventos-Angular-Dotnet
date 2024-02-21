@@ -1,7 +1,10 @@
 namespace ProEventos.Domain.Models;
 
+// Annotation para definir nome diferente para tabela a ser criada no Banco de Dados
+// [Table("Eventos_TB")]
 public class Evento
 {
+  // [Key]
   public int Id { get; set; }
   public string? Local { get; set; }
   public DateTime DataEvento { get; set; }
