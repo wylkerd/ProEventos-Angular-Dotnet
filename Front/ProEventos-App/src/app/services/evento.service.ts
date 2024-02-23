@@ -9,12 +9,12 @@ import { Observable, map, take } from "rxjs";
 export class EventoService {
 
   // baseURL = environment.apiURL + 'api/eventos';
-  baseURL = 'https://localhost:5001/api/eventos';
+  baseURL = 'http://localhost:5000/api/eventos';
 
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]> {
-    return this.http.get<Evento[]>(this.baseURL);
+    return this.http.get<Evento[]>(this.baseURL).pipe(take(1));
   }
 
   // public getEventos(page?: number, itemsPerPage?: number, term?: string): Observable<PaginatedResult<Evento[]>> {

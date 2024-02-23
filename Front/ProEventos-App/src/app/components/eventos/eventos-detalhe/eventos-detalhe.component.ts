@@ -1,8 +1,22 @@
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { ActivatedRoute, Router } from "@angular/router";
+import { EventoService } from "@app/services/evento.service";
+import { DateTimeFormatPipe } from "@app/helpers/DateTimeFormat.pipe";
+
+import { LoteService } from './../../../services/lote.service';
+import { Evento } from "@app/models/Evento";
+import { Lote } from "@app/models/Lote";
+
+import { BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerService } from "ngx-spinner";
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { ToastrService } from "ngx-toastr";
+
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-eventos-detalhe',
@@ -11,89 +25,110 @@ import { NgxSpinnerService } from "ngx-spinner";
     CommonModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    BsDatepickerModule,
+    DateTimeFormatPipe
   ],
   templateUrl: './eventos-detalhe.component.html',
   styleUrl: './eventos-detalhe.component.scss',
+  providers: [
+    ToastrService
+  ]
 })
+
 export class EventosDetalheComponent implements OnInit {
   form: any = FormGroup;
+  eventoId!: number;
+  evento = {} as Evento;
+  estadoSalvar: 'post' | 'put' = 'post';
+  loteAtual = { id: 0, nome: '', indice: 0 };
+  imagemURL = 'assets/img/upload.png';
+  file!: File;
 
-  // get modoEditar(): boolean {
-  //   return this.estadoSalvar === 'put';
-  // }
+  constructor(
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private localeService: BsLocaleService, // Datepicker
+    private activatedRouter: ActivatedRoute, // pegar parametros da url
+    private eventoService: EventoService,
+    private loteService: LoteService,
+    private toastr: ToastrService,
+    private router: Router,
+  ) {
+    this.localeService.use('pt-br');
+  }
 
-  // get lotes(): FormArray {
-  //   return this.form.get('lotes') as FormArray;
-  // }
+  ngOnInit(): void {
+    this.carregarEvento();
+    this.validation();
+  }
+
+  get modoEditar(): boolean {
+    return this.estadoSalvar === 'put';
+  }
+
+  get lotes(): FormArray {
+    return this.form.get('lotes') as FormArray;
+  }
 
   get formValues(): any {
     return this.form.controls;
   }
 
-  // get bsConfig(): any {
-  //   return {
-  //     adaptivePosition: true,
-  //     dateInputFormat: 'DD/MM/YYYY hh:mm a',
-  //     containerClass: 'theme-default',
-  //     showWeekNumbers: false,
-  //   };
-  // }
-
-  // public carregarEvento(): void {
-  //   this.eventoId = +this.activatedRouter.snapshot.paramMap.get('id');
-
-  //   if (this.eventoId !== null && this.eventoId !== 0) {
-  //     this.spinner.show();
-
-  //     this.estadoSalvar = 'put';
-
-  //     this.eventoService
-  //       .getEventoById(this.eventoId)
-  //       .subscribe(
-  //         (evento: Evento) => {
-  //           this.evento = { ...evento };
-  //           this.form.patchValue(this.evento);
-  //           if (this.evento.imagemURL !== '') {
-  //             this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imagemURL;
-  //           }
-  //           this.carregarLotes();
-  //         },
-  //         (error: any) => {
-  //           this.toastr.error('Erro ao tentar carregar Evento.', 'Erro!');
-  //           console.error(error);
-  //         }
-  //       )
-  //       .add(() => this.spinner.hide());
-  //   }
-  // }
-
-  // public carregarLotes(): void {
-  //   this.loteService
-  //     .getLotesByEventoId(this.eventoId)
-  //     .subscribe(
-  //       (lotesRetorno: Lote[]) => {
-  //         lotesRetorno.forEach((lote) => {
-  //           this.lotes.push(this.criarLote(lote));
-  //         });
-  //       },
-  //       (error: any) => {
-  //         this.toastr.error('Erro ao tentar carregar lotes', 'Erro');
-  //         console.error(error);
-  //       }
-  //     )
-  //     .add(() => this.spinner.hide());
-  // }
-
-  constructor(
-    private fb: FormBuilder,
-    private spinner: NgxSpinnerService,
-  ) {
-
+  get bsConfig(): any {
+    return {
+      isAnimated: true,
+      adaptivePosition: true,
+      dateInputFormat: 'DD/MM/YYYY hh:mm a',
+      containerClass: 'theme-default',
+      showWeekNumbers: false,
+    };
   }
 
-  ngOnInit(): void {
-    // this.carregarEvento();
-    this.validation();
+  public carregarEvento(): void {
+    this.eventoId = Number(this.activatedRouter.snapshot.paramMap.get('id')); // converte em inteiro
+
+    if (this.eventoId !== null && this.eventoId !== 0) {
+      this.spinner.show();
+
+      this.estadoSalvar = 'put';
+
+      this.eventoService
+        .getEventoById(this.eventoId)
+        .subscribe({
+          next: (evento: Evento) => {
+            this.evento = { ...evento }; // spread operator
+            this.form.patchValue(this.evento);
+            // if (this.evento.imagemURL !== '') {
+            //   this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imagemURL;
+            // }
+            // this.carregarLotes();
+          },
+          error: (error: any) => {
+            this.toastr.error('Erro ao tentar carregar Evento.', 'Erro!');
+            console.error(error);
+          }
+        })
+        .add(() => this.spinner.hide());
+    }
+  }
+
+  public carregarLotes(): void {
+    this.loteService
+      .getLotesByEventoId(this.eventoId)
+      .subscribe(
+        {
+          next: (lotesRetorno: Lote[]) => {
+            lotesRetorno.forEach((lote) => {
+              this.lotes.push(this.criarLote(lote));
+            });
+          },
+          error: (error: any) => {
+            this.toastr.error('Erro ao tentar carregar lotes', 'Erro');
+            console.error(error);
+          }
+        }
+      )
+      .add(() => this.spinner.hide());
   }
 
   public validation(): void {
@@ -111,7 +146,7 @@ export class EventosDetalheComponent implements OnInit {
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
       telefone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      imagemURL: [''],
+      imagemURL: ['', Validators.required],
       lotes: this.fb.array([]),
     });
   }
@@ -120,16 +155,16 @@ export class EventosDetalheComponent implements OnInit {
   //   this.lotes.push(this.criarLote({ id: 0 } as Lote));
   // }
 
-  // criarLote(lote: Lote): FormGroup {
-  //   return this.fb.group({
-  //     id: [lote.id],
-  //     nome: [lote.nome, Validators.required],
-  //     quantidade: [lote.quantidade, Validators.required],
-  //     preco: [lote.preco, Validators.required],
-  //     dataInicio: [lote.dataInicio],
-  //     dataFim: [lote.dataFim],
-  //   });
-  // }
+  criarLote(lote: Lote): FormGroup {
+    return this.fb.group({
+      id: [lote.id],
+      nome: [lote.nome, Validators.required],
+      quantidade: [lote.quantidade, Validators.required],
+      preco: [lote.preco, Validators.required],
+      dataInicio: [lote.dataInicio],
+      dataFim: [lote.dataFim],
+    });
+  }
 
   // public mudarValorData(value: Date, indice: number, campo: string): void {
   //   this.lotes.value[indice][campo] = value;
@@ -143,31 +178,31 @@ export class EventosDetalheComponent implements OnInit {
     this.form.reset();
   }
 
-  // public cssValidator(campoForm: FormControl | AbstractControl): any {
-  //   return { 'is-invalid': campoForm.errors && campoForm.touched };
-  // }
+  public cssValidator(campoForm: FormControl | AbstractControl): any {
+    return { 'is-invalid': campoForm.errors && campoForm.touched };
+  }
 
   public salvarEvento(): void {
-    // this.spinner.show();
-    // if (this.form.valid) {
-    //   this.evento =
-    //     this.estadoSalvar === 'post'
-    //       ? { ...this.form.value }
-    //       : { id: this.evento.id, ...this.form.value };
+    this.spinner.show();
 
-    //   this.eventoService[this.estadoSalvar](this.evento).subscribe(
-    //     (eventoRetorno: Evento) => {
-    //       this.toastr.success('Evento salvo com Sucesso!', 'Sucesso');
-    //       this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`]);
-    //     },
-    //     (error: any) => {
-    //       console.error(error);
-    //       this.spinner.hide();
-    //       this.toastr.error('Error ao salvar evento', 'Erro');
-    //     },
-    //     () => this.spinner.hide()
-    //   );
-    // }
+    if (this.form.valid) {
+      this.evento =
+        this.estadoSalvar === 'post'
+          ? { ...this.form.value }
+          : { id: this.evento.id, ...this.form.value };
+
+      this.eventoService[this.estadoSalvar](this.evento).subscribe({
+          next: (eventoRetorno: Evento) => {
+            this.toastr.success('Evento salvo com Sucesso!', 'Sucesso');
+            this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`]);
+          },
+          error: (error: any) => {
+            console.error(error);
+            this.toastr.error('Error ao salvar evento', 'Erro');
+          }
+        }
+      ).add(() => this.spinner.hide());
+    }
   }
 
   // public salvarLotes(): void {

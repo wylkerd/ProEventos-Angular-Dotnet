@@ -70,7 +70,8 @@ namespace ProEventos.API
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProEventos.API v1"));
       }
 
-      app.UseHttpsRedirection();
+      // Nao utilizando no desenvolvimento local
+      // app.UseHttpsRedirection();
 
       app.UseRouting();
 

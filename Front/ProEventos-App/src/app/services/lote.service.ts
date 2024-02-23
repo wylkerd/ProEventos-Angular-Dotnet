@@ -8,7 +8,7 @@ import { Lote } from "../models/Lote";
 })
 export class LoteService {
 
-  baseURL = 'https://localhost:5001/api/lotes';
+  baseURL = 'http://localhost:5000/api/lotes';
 
   constructor(private http: HttpClient) {}
 

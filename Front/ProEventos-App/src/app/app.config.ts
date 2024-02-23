@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { PreloadAllModules, provideRouter, withDebugTracing, withPreloading } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -20,6 +20,6 @@ export const appConfig: ApplicationConfig = {
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true
-    }),
+    })
   ]
 };
