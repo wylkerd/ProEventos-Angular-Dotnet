@@ -63,7 +63,7 @@ public class EventoService : IEventoService
 
       _mapper.Map(model, evento); // mapeamento de um objeto para o outro
 
-      _genericRepository.Uptate<Evento>(evento); // evento ja remapeado
+      _genericRepository.Update<Evento>(evento); // evento ja remapeado
 
       // se foi salvo
       bool save = await _genericRepository.SaveChangesAsync();

@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { RedeSocial } from "../models/RedeSocial";
 import { Observable, take } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { environments } from "@environments/environments";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RedeSocialService {
-
-  // baseURL = environment.apiURL + 'api/redesSociais';
-  baseURL = 'https://localhost:5001/api/redesSociais';
+  baseURL = environments.baseUrl + 'api/redesSociais';
 
   constructor(private http: HttpClient) {}
 

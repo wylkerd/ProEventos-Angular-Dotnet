@@ -16,7 +16,7 @@ public class GenericRepository : IProEventosGeneric
     _context.AddAsync(entity);
   }
 
-  public void Uptate<T>(T entity) where T : class
+  public void Update<T>(T entity) where T : class
   {
     _context.Update(entity);
   }

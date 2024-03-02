@@ -5,6 +5,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { UserUpdate } from '../models/identity/UserUpdate';
 import { User } from "../models/identity/User";
+import { environments } from "@environments/environments";
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class AccountService implements OnInit {
     this.setCurrentUser(this._fakeUser)
   }
 
-  // baseUrl = environment.apiURL + 'api/account/'
-  baseUrl = 'http://localhost:5000/api/account/'
+  baseUrl = environments.baseUrl + 'api/account/'
+
   constructor(private http: HttpClient) { }
 
   public login(model: any): Observable<void> {

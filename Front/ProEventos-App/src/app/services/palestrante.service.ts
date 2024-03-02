@@ -2,14 +2,13 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { Palestrante } from "../models/Palestrante";
 import { Observable, map, take } from "rxjs";
+import { environments } from "@environments/environments";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PalestranteService {
-
-  // baseURL = environment.apiURL + 'api/palestrantes';
-  baseURL = 'http://localhost:5000/api/palestrantes';
+  baseURL = environments.baseUrl + 'api/palestrantes';
 
   constructor(private http: HttpClient) {}
 

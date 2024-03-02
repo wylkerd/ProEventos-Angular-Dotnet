@@ -6,6 +6,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient } from "@angular/common/http";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideToastr } from "ngx-toastr";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(),
     provideAnimations(),
+    importProvidersFrom(TooltipModule.forRoot()),
     provideToastr({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',

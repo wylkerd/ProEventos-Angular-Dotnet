@@ -11,7 +11,10 @@ public class RepositoryInjector
   public static void RegisterRepositories(IServiceCollection services)
   {
     services.AddScoped<IEventoService, EventoService>();
-    services.AddScoped<IProEventosRepository, EventoRepository>();
+    services.AddScoped<ILoteService, LoteService>();
+
     services.AddScoped<IProEventosGeneric, GenericRepository>();
+    services.AddScoped<IProEventosRepository, EventoRepository>();
+    services.AddScoped<ILoteRepository, LoteRepository>();
   }
 }

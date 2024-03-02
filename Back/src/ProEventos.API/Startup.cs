@@ -39,14 +39,14 @@ namespace ProEventos.API
         );
 
       // configuracao AutoMapper
-      // Dentro de Helpers/Profile que implementa a Classe Profile
+      // Dentro de Application/Helpers/Profile que implementa a Classe Profile
       var config = new MapperConfiguration(cfg =>
       {
         cfg.AddProfile(new AutoMapperProfile());
       });
       services.AddSingleton<IMapper>(serviceProvider => config.CreateMapper());
       
-      // configuraçao dos Scopes <Interface, Class>
+      // configuraçao dos Scopes <Interface, Class> / API/Injectors
       RepositoryInjector.RegisterRepositories(services);
 
       services.AddCors(c => 
