@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using ProEventos.API.Helpers;
 using ProEventos.API.Injectors;
@@ -81,6 +82,11 @@ namespace ProEventos.API
         cors.AllowAnyHeader()
             .AllowAnyMethod()
             .AllowAnyOrigin());
+
+      app.UseStaticFiles(new StaticFileOptions() {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
+        RequestPath = new PathString("/Resources")
+      });
 
       app.UseEndpoints(endpoints =>
       {
