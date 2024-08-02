@@ -293,9 +293,9 @@ export class EventosDetalheComponent implements OnInit {
   onFileChange(ev: any): void {
     const reader = new FileReader();
 
-    reader.onload = (event: any) => this.imagemURL = event.target.result;
+    reader.onload = (event: any) => ( this.imagemURL = event.target.result );
 
-    this.file = ev.target.files;
+    this.file = ev.target.files[0] as File;
     reader.readAsDataURL(this.file);
 
     // this.uploadImagem();
