@@ -298,21 +298,20 @@ export class EventosDetalheComponent implements OnInit {
     this.file = ev.target.files[0] as File;
     reader.readAsDataURL(this.file);
 
-    // this.uploadImagem();
+    this.uploadImagem();
   }
 
-  // uploadImagem(): void {
-  //   this.spinner.show();
-  //   this.eventoService.postUpload(this.eventoId, this.file).subscribe(
-  //     () => {
-  //       this.carregarEvento();
-  //       this.toastr.success('Imagem atualizada com Sucesso', 'Sucesso!');
-  //     },
-  //     (error: any) => {
-  //       this.toastr.error('Erro ao fazer upload de imagem', 'Erro!');
-  //       console.log(error);
-  //     }
-  //   ).add(() => this.spinner.hide());
-  // }
+  uploadImagem(): void {
+    this.spinner.show();
+    this.eventoService.postUpload(this.eventoId, this.file).subscribe({
+      next: () => {
+        this.carregarEvento();
+        this.toastr.success('Imagem atualizada com Sucesso', 'Sucesso!');
+      },
+      error: (error: any) => {
+        this.toastr.error('Erro ao fazer upload de imagem', 'Erro!');
+      }
+    }).add(() => this.spinner.hide());
+  }
 
 }
