@@ -58,7 +58,7 @@ export class EventosDetalheComponent implements OnInit {
   evento = {} as Evento;
   estadoSalvar: 'post' | 'put' = 'post';
   loteAtual = { id: 0, nome: '', indice: 0 };
-  imagemURL = 'assets/img/upload.png';
+  imagemURL = 'assets/images/upload.png';
   file!: File;
 
   // Icones

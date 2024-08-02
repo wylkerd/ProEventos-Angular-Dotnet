@@ -98,7 +98,7 @@ public class EventosController : ControllerBase
       if (file.Length > 0)
       {
         DeleteImage(evento.ImagemURL);
-        // evento.ImagemURL = SaveImage(file);
+        evento.ImagemURL = await SaveImage(file);
       }
       var EventoRetorno = await _eventoService.UpdateEvento(eventoId, evento);
 
@@ -143,6 +143,26 @@ public class EventosController : ControllerBase
     {
       return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar deletar eventos. Erro: {ex.Message}");
     }
+  }
+
+  [NonAction] // Nao sera um endpoint, mas sim um metodo auxiliar
+  public async Task<string> SaveImage(IFormFile imageFile)
+  {
+    string imageName = new String(
+      Path.GetFileNameWithoutExtension(imageFile.FileName)
+        .Take(10)
+        .ToArray()).Replace(' ', '-');
+
+    imageName = $"{imageName}{DateTime.UtcNow:yymmssfff}{Path.GetExtension(imageFile.FileName)}";
+
+    var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images", imageName);
+
+    using (var fileStream = new FileStream(imagePath, FileMode.Create))
+    {
+      await  imageFile.CopyToAsync(fileStream);
+    }
+
+    return imageName;
   }
 
   [NonAction] // Nao sera um endpoint, mas sim um metodo auxiliar
