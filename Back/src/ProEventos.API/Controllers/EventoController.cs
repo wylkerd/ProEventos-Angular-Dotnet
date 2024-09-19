@@ -134,10 +134,13 @@ public class EventosController : ControllerBase
       var evento = await _eventoService.GetEventosByIdAsync(id, true);
       if (evento == null) return NoContent();
 
-      return await _eventoService.DeleteEvento(id) ?
-        Ok(new { message = $"Evento Deletado com sucesso." })
-        : throw new Exception("Ocorreu um problema nao especifico ao tentar deletar o Evento.");
-
+      if (await _eventoService.DeleteEvento(id)) {
+        DeleteImage(evento.ImagemURL);
+        return Ok(new { message = $"Evento Deletado com sucesso." });
+      }
+      else {
+        throw new Exception("Ocorreu um problema nao especifico ao tentar deletar o Evento.");
+      }
     }
     catch (Exception ex)
     {
