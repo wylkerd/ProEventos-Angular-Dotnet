@@ -16,6 +16,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { TituloComponent } from "@app/shared/titulo/titulo.component";
 import { DateTimeFormatPipe } from "@app/helpers/DateTimeFormat.pipe";
 import { Router, RouterLink } from "@angular/router";
+import { environments } from "@environments/environments";
 
 @Component({
   selector: 'app-eventos-lista',
@@ -87,6 +88,12 @@ export class EventosListaComponent implements OnInit {
 
   public ngOnInit(): void {
     this.carregarEventos()
+  }
+
+  public mostrarImagem(imageURL: string): string {
+    return (imageURL)
+    ? `${environments.baseUrl}resources/images/${imageURL}`
+    : 'assets/images/semImagem.png'
   }
 
   public toggleImagem(): void {

@@ -21,6 +21,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { CurrencyMaskModule } from "ng2-currency-mask";
+import { environments } from "@environments/environments";
 
 defineLocale('pt-br', ptBrLocale); // Date Picker
 
@@ -119,12 +120,12 @@ export class EventosDetalheComponent implements OnInit {
           Validators.maxLength(50),
         ],
       ],
-      local: ['', Validators.required],
-      dataEvento: ['', Validators.required],
-      qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
-      telefone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      imagemURL: ['', Validators.required],
+      local: [{ value:'', disabled: false }, Validators.required],
+      dataEvento: [{ value:'', disabled: false }, Validators.required],
+      qtdPessoas: [{ value:'', disabled: false }, [Validators.required, Validators.max(120000)]],
+      telefone: [{ value:'', disabled: false }, Validators.required],
+      email: [{ value:'', disabled: false }, [Validators.required, Validators.email]],
+      imagemURL: [{ value:'', disabled: false }],
       lotes: this.fb.array([]), // varios lotes poderao ser criados e validados
     });
   }
@@ -161,9 +162,9 @@ export class EventosDetalheComponent implements OnInit {
           next: (evento: Evento) => {
             this.evento = { ...evento }; // spread operator
             this.form.patchValue(this.evento);
-            // if (this.evento.imagemURL !== '') {
-            //   this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imagemURL;
-            // }
+            if (this.evento.imagemURL !== '') {
+              this.imagemURL = environments.baseUrl + 'resources/images/' + this.evento.imagemURL;
+            }
 
             // this.carregarLotes(); // Desnecessario, usar tercho abaixo
             this.evento.lotes.forEach((lote) => {

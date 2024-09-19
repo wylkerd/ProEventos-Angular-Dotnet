@@ -56,7 +56,7 @@
                 Qtd Pessoas deve ser menor que 120000.
               </div>
             </div>
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-4">
               <label>Telefone</label>
               <input type="text" class="form-control" [ngClass]="cssValidator(formValues.telefone)"
                 formControlName="telefone" placeholder="(000) 90000-0000">
@@ -65,7 +65,7 @@
                 Telefone é obrigatório.
               </div>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>Email</label>
               <input type="text" class="form-control" [ngClass]="cssValidator(formValues.email)" formControlName="email"
                 placeholder="e-mail">
@@ -75,14 +75,6 @@
               </div>
               <div *ngIf="formValues.email.errors?.email && formValues.email.touched" class="invalid-feedback">
                 Deve ser um endereço de e-mail válido
-              </div>
-            </div>
-            <div class="form-group col-md-4">
-              <label>Imagem</label>
-              <input type="text" class="form-control" [ngClass]="cssValidator(formValues.imagemURL)"
-                formControlName="imagemURL" placeholder="imagem">
-              <div *ngIf="formValues.imagemURL.errors?.required && formValues.imagemURL.touched" class="invalid-feedback">
-                Imagem é obrigatória.
               </div>
             </div>
           </div>
